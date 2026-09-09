@@ -1,0 +1,19 @@
+{
+  "name": "LunarPassTests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  },
+  "scripts": {
+    "go": "claude",
+    "router": "9router"
+  },
+  "dependencies": {
+    "9router": "0.5.50",
+    "@anthropic-ai/claude-code": "^2.1.228"
+  }
+}
