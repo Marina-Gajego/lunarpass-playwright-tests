@@ -23,6 +23,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  /* O ambiente de dev compila rotas sob demanda e fica lento; damos mais folga
+   * que o padrão de 30s para o teste inteiro (hooks incluídos) e para os expects. */
+  timeout: 60_000,
+  expect: { timeout: 10_000 },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -34,9 +38,19 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    /* Faz login uma única vez e salva o storageState reutilizado pelos demais testes. */
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+    },
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'],
     },
 
     // {

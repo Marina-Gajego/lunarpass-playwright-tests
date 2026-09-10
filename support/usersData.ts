@@ -13,26 +13,24 @@ export function validUser(overrides: Partial<User> = {}): User {
     };
 }
 
-export function invalidUser(overrides: Partial<User> = {}): User {
-    return {
-        email: faker.internet.email(),
-        password: faker.internet.password(),
-        ...overrides,
-    };
-}
-
 export function invalidEmail(overrides: Partial<User> = {}): User {
-    return {
+    return validUser({
         email: faker.internet.email(),
-        password: 'pwd123',
         ...overrides,
-    };
+    });
 }
 
 export function invalidPassword(overrides: Partial<User> = {}): User {
-    return {
-        email: 'buzz@lunarpass.dev',
+    return validUser({
         password: faker.internet.password(),
         ...overrides,
-    };
+    });
+}
+
+export function invalidUser(overrides: Partial<User> = {}): User {
+    return validUser({
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        ...overrides,
+    });
 }

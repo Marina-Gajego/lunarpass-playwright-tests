@@ -6,7 +6,9 @@
   "devDependencies": {
     "@faker-js/faker": "^10.6.0",
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.2.0"
+    "@types/node": "^26.2.0",
+    "@types/pg": "^8.23.1",
+    "pg": "^8.23.0"
   },
   "scripts": {
     "go": "claude",
@@ -14,6 +16,7 @@
   },
   "dependencies": {
     "9router": "0.5.50",
-    "@anthropic-ai/claude-code": "^2.1.228"
+    "@anthropic-ai/claude-code": "^2.1.228",
+    "kysely": "^0.29.5"
   }
 }

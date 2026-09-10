@@ -9,9 +9,9 @@ export class MissionControlLoginPage {
 
     constructor(page: Page){
         this.page = page;
-        this.emailInput = page.getByPlaceholder('Informe seu email');
-        this.passwordInput = page.getByPlaceholder('Sua senha secreta');
-        this.loginButton = page.getByRole('button', {name: 'Entrar'})
+        this.emailInput = page.getByRole('textbox', { name: 'Informe seu email' });
+        this.passwordInput = page.getByRole('textbox', { name: 'Sua senha secreta' });
+        this.loginButton = page.getByRole('button', { name: 'Entrar' })
         this.alert = page.getByRole('alert')
     }
 
@@ -23,5 +23,10 @@ export class MissionControlLoginPage {
         await this.emailInput.fill(email);
         await this.passwordInput.fill(password);
         await this.loginButton.click();
+    }
+
+    async loginAsDefaultUser(){
+        await this.gotoLoginMissionControl();
+        await this.login('buzz@lunarpass.dev', 'pwd123');
     }
 }
