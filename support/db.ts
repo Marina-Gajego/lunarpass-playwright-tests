@@ -52,3 +52,20 @@ export async function deleteTicket(missionId: string){
         .where('missionId', '=', missionId)
         .execute()
 }
+
+export async function selectMission(missionId: string) {
+    return await db
+        .selectFrom('missions')
+        .selectAll()
+        .where('id', '=', missionId)
+        .execute()
+}
+
+export async function cleanAndInsertMission(mission: Mission){
+    await Promise.all([
+        deleteReservation(mission.id),
+        deleteTicket(mission.id),
+    ]);
+    await deleteMission(mission.id);
+    await insertMission(mission);
+}
