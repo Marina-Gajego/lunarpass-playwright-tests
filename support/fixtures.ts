@@ -4,8 +4,11 @@ import { MissionControlPage } from '../pages/missionControl.page';
 import { NewMissionPage } from '../pages/missionControlNew.page';
 import { Navbar } from '../pages/componentes/navbar';
 import { Toast } from '../pages/componentes/toast';
+import { Mission, validMission } from './missionData';
+import { cleanMission } from './db';
 
 type Fixtures = {
+    createMission: (overrides?: Partial<Mission>) => Mission;
     loginPage: MissionControlLoginPage;
     missionControlPage: MissionControlPage;
     newMissionPage: NewMissionPage;
@@ -14,6 +17,17 @@ type Fixtures = {
 };
 
 export const test = base.extend<Fixtures>({
+    createMission: async ({}, use) => {
+        const created: Mission[] = [];
+        await use((overrides = {}) => {
+            const mission = validMission(overrides);
+            created.push(mission);
+            return mission;
+        });
+        for (const mission of created) {
+            await cleanMission(mission.id);
+        }
+    },
     loginPage: async ({ page }, use) => {
         await use(new MissionControlLoginPage(page));
     },

@@ -35,16 +35,24 @@ export class NewMissionPage {
         await this.lunarBaseSelect.selectOption(base);
     }
 
-    async fillMissionData(id: string, base: string, rocket: string, departureDate: string, price: number){
+    async fillMissionData(id: string, base: string, rocket: string, departureDate: string, price: number | null){
         await this.missionIdInput.fill(id);
         await this.lunarBaseSelect.selectOption(base);
         await this.rocketInput.fill(rocket);
         await this.departureDateInput.fill(departureDate);
-        await this.priceInput.fill(String(price));
+        await this.priceInput.fill(price === null ? '' : String(price));
+    }
+
+    async fillDepartureDate(departureDate: string){
+        await this.departureDateInput.fill(departureDate);
     }
 
     async saveMission(){
         await this.saveButton.click();
+    }
+
+    async saveMissionWithDoubleClick(){
+        await this.saveButton.dblclick();
     }
 
     async goBack(){

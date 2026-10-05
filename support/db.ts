@@ -61,11 +61,15 @@ export async function selectMission(missionId: string) {
         .execute()
 }
 
-export async function cleanAndInsertMission(mission: Mission){
+export async function cleanMission(id: string){
     await Promise.all([
-        deleteReservation(mission.id),
-        deleteTicket(mission.id),
+        deleteReservation(id),
+        deleteTicket(id),
     ]);
-    await deleteMission(mission.id);
+    await deleteMission(id);
+}
+
+export async function cleanAndInsertMission(mission: Mission){
+    await cleanMission(mission.id);
     await insertMission(mission);
 }

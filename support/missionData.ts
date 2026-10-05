@@ -6,7 +6,7 @@ export interface Mission {
     rocket: string;
     departureDate: string;
     returnDate: string;
-    price: number;
+    price: number | null;
 }
 
 export interface Reservation {
