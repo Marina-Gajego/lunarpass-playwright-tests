@@ -1,0 +1,142 @@
+{
+  "data_hora_inicio": "5 de outubro de 2026 08:22 PM",
+  "testador": "Claude (IA)",
+  "modulo": "Mission Control — Cadastro de nova missão",
+  "charter": {
+    "explore": "o cadastro de novas missões no Mission Control (/mission-control/new)",
+    "com": "valores-limite, dados estranhos, interrupções e checagem da validação no servidor",
+    "para_descobrir": "se o formulário permite cadastrar missões inválidas ou inconsistentes que cheguem ao viajante no Storefront"
+  },
+  "duracao": "5 minutos de relógio (≈60 experimentos)",
+  "notas": [
+    {
+      "tipo": "I",
+      "texto": "Entrei com buzz@lunarpass.dev. O catálogo tinha 42 missões, muitas repetidas criadas pelas suítes E2E (vários 'Startship', com erro de digitação, na Base Aurora)."
+    },
+    {
+      "tipo": "I",
+      "texto": "O formulário tem ID, Foguete, Base (4 opções), Data de partida, Retorno automático (calculado: partida + 7 dias) e Preço (USD). Nenhum campo tem 'required' no HTML; o preço tem min=0.01 e step=0.01."
+    },
+    {
+      "tipo": "I",
+      "texto": "Enviei o formulário vazio e só apareceu 'Use o formato LP-0000'. Fui preenchendo um campo de cada vez e os erros vieram um por vez: 'Informe o foguete', 'Informe uma data válida', 'Informe um preço válido'. Pela rede, percebi que as mensagens vêm do servidor, o que explica o erro único por envio."
+    },
+    {
+      "tipo": "R",
+      "texto": "Como só aparece um erro por vez, o operador que esquece vários campos precisa de várias tentativas para descobrir tudo o que falta."
+    },
+    {
+      "tipo": "I",
+      "texto": "Um ID em minúsculas (lp-9001) foi salvo como LP-9001, e ' LP-9001 ' com espaços foi reconhecido como duplicado ('Já existe uma missão com este ID.'). A normalização funciona bem."
+    },
+    {
+      "tipo": "I",
+      "texto": "A dica diz 'LP-0000', mas o app aceitou LP-90011 (5 dígitos), LP-ABCD (letras), LP-0000 e até um ID com 60 caracteres depois de 'LP-'. Ele rejeitou LP-12, LP- vazio, travessão (–), espaço interno, acentos e prefixo XP-. A regra real parece ser 'LP-' seguido de 4 ou mais alfanuméricos, sem limite de tamanho."
+    },
+    {
+      "tipo": "I",
+      "texto": "Preço: rejeitou 0, -5 e 0.001; aceitou 0.01 e 1e3 (salvo como USD 1,000.00). Com 100.999, salvou e exibiu USD 101.00 sem aviso."
+    },
+    {
+      "tipo": "R",
+      "texto": "O arredondamento silencioso de 100.999 para 101.00 muda o preço cobrado sem o operador perceber. Além disso, é incoerente: 0.001 é recusado, mas 100.999 passa."
+    },
+    {
+      "tipo": "I",
+      "texto": "Preço 999999999999999 mostrou na tela a mensagem crua do banco: 'numeric field overflow' (screenshot 01)."
+    },
+    {
+      "tipo": "I",
+      "texto": "Datas: aceitou 01/01/2020, ontem (04/10/2026) e hoje. Com 31/12/9999, o Retorno automático mostrou 'Invalid Date' e mesmo assim a missão foi salva (screenshots 01 e 02)."
+    },
+    {
+      "tipo": "I",
+      "texto": "Fui ao Storefront (/missions?base=alpha): a missão LP-9108, de 2020, apareceu em primeiro lugar, com 4/4 assentos e o botão RESERVAR (screenshot 03). A LP-9111 aparece para o viajante como '31 de dez. de 9999 → Invalid Date' e também pode ser reservada (screenshot 04)."
+    },
+    {
+      "tipo": "R",
+      "texto": "Como a ordenação padrão é pela partida mais próxima, missões passadas cadastradas por engano vão para o topo da busca e podem ser vendidas."
+    },
+    {
+      "tipo": "I",
+      "texto": "O retorno calculado está certo nas viradas de mês, ano e em ano bissexto (25/02/2028 → 03/03/2028; 28/12/2027 → 04/01/2028)."
+    },
+    {
+      "tipo": "I",
+      "texto": "Foguete: só com espaços é rejeitado; 80 caracteres passa e 81 dá 'Use no máximo 80 caracteres'. O nome '<img src=x onerror=alert(1)>' foi salvo e aparece escapado como texto, tanto na lista quanto no Storefront, sem executar script."
+    },
+    {
+      "tipo": "I",
+      "texto": "Fiz três cliques simultâneos em Salvar: o botão fica desabilitado durante o envio e só uma missão LP-9201 foi criada. Enter no campo de preço também envia o formulário."
+    },
+    {
+      "tipo": "I",
+      "texto": "Cliquei em VOLTAR com o formulário preenchido e voltei para a lista sem nenhum aviso. Os dados digitados se perderam."
+    },
+    {
+      "tipo": "R",
+      "texto": "Sair sem aviso de alterações não salvas pode fazer o operador perder um cadastro feito pela metade."
+    },
+    {
+      "tipo": "I",
+      "texto": "Chamei direto a server function de cadastro com dados que a tela bloqueia: base 'marte', foguete vazio, preço negativo, ID 'bad id' e data 'not-a-date'. O servidor recusou todos. Depois do logout, a chamada respondeu 'Acesso ao Mission Control não autorizado.' e /mission-control/new redirecionou para o login. A validação e a autorização no servidor estão sólidas."
+    },
+    {
+      "tipo": "I",
+      "texto": "Fora do charter: abrir /missions?base=alpha&sort=asc no Storefront retorna HTTP 500 e a página não renderiza (console: 'Error: Selecione uma ordenação válida')."
+    },
+    {
+      "tipo": "I",
+      "texto": "Fora do charter: na lista do Mission Control, buscar 'LP-ABCD' retornou várias missões sem relação (LP-0127A, LP-O1SD…). Buscar '9001' gera a URL com o termo entre aspas (?q=%229001%22)."
+    },
+    {
+      "tipo": "R",
+      "texto": "Deixei no catálogo compartilhado as missões de teste LP-9001, LP-90011, LP-ABCD, LP-0000, LP-9102, LP-9105, LP-9107 a LP-9112, LP-9114, LP-9201, LP-9207, LP-9301 e LP-ZZZ… (63 caracteres). Elas aparecem no Storefront e podem interferir nas suítes E2E."
+    },
+    {
+      "tipo": "I",
+      "texto": "Depois da sessão, a responsável pelo produto respondeu às perguntas e definiu o critério de classificação: só é defeito o que contraria o documento de requisitos (docs/backup/storefront-rfs.md). O que não está lá é sugestão de melhoria. Com base nisso, reclassifiquei os achados."
+    },
+    {
+      "tipo": "I",
+      "texto": "Respostas recebidas: (1) o ID segue o padrão 'LP-' seguido de qualquer coisa; (2) não há antecedência mínima nem data máxima de partida, porque o requisito não define isso; (3) o preço não tem mínimo nem máximo, é livre; (4) pode haver duas missões com o mesmo foguete na mesma data; (5) o VOLTAR não precisa avisar sobre alterações não salvas."
+    },
+    {
+      "tipo": "R",
+      "texto": "Melhoria: a dica e a mensagem de erro do ID dizem 'Use o formato LP-0000', mas a regra real é 'LP-' + qualquer coisa. O texto engana quem cadastra. Sugestão: trocar por algo como 'Comece com LP-'."
+    },
+    {
+      "tipo": "R",
+      "texto": "Melhoria: o ID não tem limite de tamanho (um ID de 63 caracteres foi aceito). Isso pode quebrar o layout da lista, dos cards e do ticket."
+    },
+    {
+      "tipo": "R",
+      "texto": "Melhoria / ponto em aberto do requisito: o cadastro aceita data de partida no passado (01/01/2020, 04/10/2026), e a missão aparece em primeiro lugar no Storefront com RESERVAR habilitado (screenshot 03). O requisito não proíbe isso. A seção 'Premissas e pontos em aberto' apenas supõe que a operação mantém só missões vigentes e diz que, se missões passadas puderem permanecer no catálogo, será preciso definir a regra de exibição. Vale levar o ponto ao produto."
+    },
+    {
+      "tipo": "R",
+      "texto": "Melhoria: um preço com 3 casas decimais (100.999) é arredondado para USD 101.00 sem aviso, enquanto 0.001 é recusado. O requisito só diz que o preço é um valor decimal em USD, então não há regra violada, mas o comportamento é incoerente e altera o valor digitado."
+    },
+    {
+      "tipo": "R",
+      "texto": "Melhoria: o formulário mostra um erro por vez, porque a validação vem do servidor. O operador precisa de várias tentativas para descobrir todos os campos que faltam."
+    },
+    {
+      "tipo": "R",
+      "texto": "Melhoria: a busca do Mission Control traz resultados sem relação (buscar 'LP-ABCD' retorna LP-0127A, LP-O1SD…)."
+    }
+  ],
+  "defeitos": [
+    "Data de partida 31/12/9999 gera retorno 'Invalid Date', e mesmo assim a missão é salva e publicada. Passos: em /mission-control/new, cadastrar LP-9111, foguete 'Explo', Base Lunar Alpha, partida 31/12/9999 e preço 100. O Retorno automático mostra 'Invalid Date'; ao salvar, a lista e o card do Storefront exibem '31 de dez. de 9999 → Invalid Date', com RESERVAR habilitado (screenshots 01, 02 e 04). Contraria o RF-04 da Busca de Missões: cada missão deve apresentar a data de retorno, e a regra de negócio diz que toda missão tem estadia fixa de 7 dias.",
+    "Um preço válido pela regra é recusado com um erro técnico do banco. Passos: cadastrar com preço 999999999999999. A mensagem 'numeric field overflow' aparece no formulário (screenshot 01). Pelo requisito, o preço é um valor decimal livre, sem máximo definido. O sistema impõe um limite que não está documentado e o comunica com uma mensagem técnica em inglês, que não diz ao operador o que fazer.",
+    "IDs que seguem o padrão 'LP-' + qualquer coisa são recusados. Os IDs LP-12, LP-92 3, LP-ÁÇÕ1 e LP-<b>1 foram rejeitados com 'Use o formato LP-0000'. Pela regra confirmada pelo produto (LP- seguido de qualquer coisa), deveriam ser aceitos. Na prática, o sistema exige pelo menos 4 caracteres alfanuméricos sem acento depois de 'LP-'. Se a regra real for outra, ela precisa ser documentada (ver pergunta).",
+    "(Fora do charter) /missions?base=alpha&sort=asc retorna HTTP 500 e a página não carrega. O console mostra 'Error: Selecione uma ordenação válida'. O RF-02 da Busca de Missões diz que, quando o viajante não escolhe uma ordenação válida, os resultados devem vir pela partida mais próxima. Um parâmetro inválido deveria cair nessa ordenação padrão, e não derrubar a página."
+  ],
+  "perguntas": [
+    "Respondida — formato do ID: 'LP-' seguido de qualquer coisa. Ainda em aberto: 'qualquer coisa' inclui IDs curtos (LP-12), espaços, acentos e símbolos, que hoje são recusados? Existe um tamanho máximo?",
+    "Respondida — antecedência mínima ou data máxima de partida: não há, porque o requisito não define. Ainda em aberto: missões com partida no passado podem ser cadastradas e vendidas? O próprio requisito lista isso como ponto em aberto.",
+    "Respondida — preço mínimo e máximo: o preço é livre. Ainda em aberto: o banco hoje tem um limite técnico (cerca de 15 dígitos); qual deve ser o máximo aceito e qual mensagem mostrar?",
+    "Respondida — mesmo foguete na mesma data: é permitido.",
+    "Respondida — aviso ao sair sem salvar: não é necessário."
+  ]
+}
