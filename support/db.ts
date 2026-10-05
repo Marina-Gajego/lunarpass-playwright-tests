@@ -8,9 +8,10 @@ interface Database {
     tickets: Ticket
 }
 
-const connectionString =
-    process.env.DATABASE_URL ??
-    'postgresql://usuario:senha@host:5432/postgres';
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+    throw new Error('DATABASE_URL não definida. Copie .env.example para .env e preencha a conexão do banco.');
+}
 
 const dialect = new PostgresDialect({
     pool: new Pool({

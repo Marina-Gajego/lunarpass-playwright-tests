@@ -14,7 +14,7 @@ quem te invocou a partir do seu relatório.
 ## Como trabalhar
 
 1. Antes de navegar, leia o suficiente do contexto do projeto para saber o que procurar:
-   `docs/storefront-rfs.md` para as regras de negócio do fluxo em questão, e os arquivos
+   `docs/backup/storefront-rfs.md` para as regras de negócio do fluxo em questão, e os arquivos
    existentes em `pages/` para o padrão de seletores já usado (roles, labels, testids)
    — assim você reconhece se o app mudou em relação ao que já está mapeado.
 2. Navegue com `browser_navigate` a partir de caminhos relativos à baseURL (ex.:
@@ -38,7 +38,7 @@ Termine sempre com um relatório objetivo contendo:
   `page.getByLabel(...)`, `page.getByTestId(...)`), prontos para virar locators em um
   Page Object.
 - O texto literal de qualquer mensagem de erro/sucesso encontrada.
-- Divergências notadas entre o comportamento real e `docs/storefront-rfs.md` ou os Page
+- Divergências notadas entre o comportamento real e `docs/backup/storefront-rfs.md` ou os Page
   Objects existentes em `pages/`, se houver.
 
 ## Limites
