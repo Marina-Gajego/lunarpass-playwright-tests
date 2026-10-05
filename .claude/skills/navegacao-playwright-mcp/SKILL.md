@@ -1,6 +1,6 @@
 ---
 name: navegacao-playwright-mcp
-description: Use esta skill para explorar/reconhecer o Storefront Lunar Pass em um navegador real via Playwright MCP antes de escrever ou atualizar testes E2E. Aciona quando o usuário pedir para "navegar", "explorar", "mapear fluxo", "investigar a tela", "ver como funciona na prática" ou quando as regras de negócio em docs/storefront-rfs.md precisarem ser confirmadas contra o comportamento real do app (seletores, mensagens, estados) antes de criar Page Objects ou specs.
+description: Use esta skill para explorar/reconhecer o Storefront Lunar Pass em um navegador real via Playwright MCP antes de escrever ou atualizar testes E2E. Aciona quando o usuário pedir para "navegar", "explorar", "mapear fluxo", "investigar a tela", "ver como funciona na prática" ou quando as regras de negócio em docs/backup/storefront-rfs.md precisarem ser confirmadas contra o comportamento real do app (seletores, mensagens, estados) antes de criar Page Objects ou specs.
 ---
 
 # Navegação com Playwright MCP
@@ -18,7 +18,7 @@ asserts de teste diretamente pelo MCP.
   (roles, labels, testids) em vez de adivinhar.
 - Antes de escrever uma spec nova, para percorrer o fluxo manualmente e entender estados,
   mensagens de erro e transições de tela.
-- Quando uma regra de negócio em `docs/storefront-rfs.md` estiver ambígua e precisar ser
+- Quando uma regra de negócio em `docs/backup/storefront-rfs.md` estiver ambígua e precisar ser
   validada contra o comportamento real do app rodando em `http://localhost:3000`.
 - Para investigar uma spec que está falhando, reproduzindo o fluxo passo a passo no
   navegador e comparando com o que o Page Object espera.
@@ -40,7 +40,7 @@ asserts de teste diretamente pelo MCP.
    ler a árvore de acessibilidade — é dali que vêm os seletores idiomáticos já usados no
    projeto: `getByRole`, `getByLabel`, `getByTestId` (ver `pages/*.page.ts` para o padrão).
 3. **Interagir passo a passo** (`browser_click`, `browser_type`, `browser_select_option`,
-   etc.) reproduzindo o fluxo do usuário descrito em `docs/storefront-rfs.md`, um passo por
+   etc.) reproduzindo o fluxo do usuário descrito em `docs/backup/storefront-rfs.md`, um passo por
    vez, conferindo o snapshot após cada ação relevante.
 4. **Anotar o que foi observado**: nome acessível de cada elemento, mensagens de
    erro/alerta exatas (texto literal, para usar em `expect(...).toHaveText(...)`), e

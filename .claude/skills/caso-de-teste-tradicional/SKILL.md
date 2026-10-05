@@ -1,6 +1,6 @@
 ---
 name: caso-de-teste-tradicional
-description: Gera casos de teste tradicionais (documento Markdown com ID, pré-condições, dados, passos e resultado esperado) a partir de um requisito funcional (RF) de docs/storefront-rfs.md do Storefront Lunar Pass, confirmando antes o comportamento real do app via Playwright MCP. Use SEMPRE que o usuário pedir "gera o caso de teste do RF-0X", "casos de teste tradicionais", "caso de teste manual", "documentar testes do requisito", "escrever casos de teste para a funcionalidade X" ou algo parecido, mesmo que não cite a palavra "tradicional". Não use para specs Playwright automatizadas nem para cenários Gherkin (para isso há a skill gherkin-qa-design).
+description: Gera casos de teste tradicionais (documento Markdown com ID, pré-condições, dados, passos e resultado esperado) a partir de um requisito funcional (RF) de docs/backup/storefront-rfs.md do Storefront Lunar Pass, confirmando antes o comportamento real do app via Playwright MCP. Use SEMPRE que o usuário pedir "gera o caso de teste do RF-0X", "casos de teste tradicionais", "caso de teste manual", "documentar testes do requisito", "escrever casos de teste para a funcionalidade X" ou algo parecido, mesmo que não cite a palavra "tradicional". Não use para specs Playwright automatizadas nem para cenários Gherkin (para isso há a skill gherkin-qa-design).
 ---
 
 # Caso de teste tradicional a partir de um RF
@@ -16,7 +16,7 @@ fluxo sempre passa por navegar o app antes de escrever.
 ## Entradas
 
 - `RF_ID` e `RF_TITULO` (ex.: `RF-01`, "Buscar missões por base lunar") e a
-  `FUNCIONALIDADE`, exatamente como aparecem em `docs/storefront-rfs.md`. Se o usuário
+  `FUNCIONALIDADE`, exatamente como aparecem em `docs/backup/storefront-rfs.md`. Se o usuário
   passar só o número do RF, busque o resto no arquivo.
 - O app deve estar rodando em `http://localhost:3000` e o servidor MCP `playwright`
   conectado. Se não estiver, peça ao usuário para subir/conectar; não simule a navegação
@@ -24,7 +24,7 @@ fluxo sempre passa por navegar o app antes de escrever.
 
 ## Fluxo
 
-1. **Ler o requisito.** Em `docs/storefront-rfs.md`, extraia a história de usuário da
+1. **Ler o requisito.** Em `docs/backup/storefront-rfs.md`, extraia a história de usuário da
    funcionalidade, as regras de negócio relevantes ao RF e os bullets exatos do requisito.
 
 2. **Navegar o app real.** Siga a skill `navegacao-playwright-mcp` (ou o agente
